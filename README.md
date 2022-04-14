@@ -8,7 +8,6 @@ Do realizacji projektu planuje wykorzystać silnik Unreal Engine 4.27.2, który 
 Wstępnie planuje:
 raport I (14.04)
   poprawa kodu i blueprintów (może nawet stworzenie wszystkiego od nowa bazując na tym co już zrobiłem),
-  
   poprawa mechaniki wykonywania rozkazów wielu jednostkom,
   poprawa jeszcze większej ilości zrobionych wcześniej mechanik,
 raport II (05.05)
