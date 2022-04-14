@@ -1,0 +1,8 @@
+Raport (14.04.2022)
+ - poprawiony kod / blueprinty
+ - zmiana w wyświetlanych nazwach obiektów po kliknięciu (drzewa, skały)
+ - (UnitSpanw) dodana funkcja ustawiająca wybrane jednostki w kształt kwadratu po wybraniu miejsca do które mają się udać... ( zmiana kolizji między jednostkami )
+ - ( Nowy blueprint - WallSpawn ) dodana możliwość kupienia kawałka muru po kupieniu go w magazynie z możliwością rotowania go przed postawieniem
+ W planach:
+ - rozszerzenie ilości budowli
+ - zaznaczanie wielu jednostek jednocześnie (przeciąnięciem na ekranie)
