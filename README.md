@@ -6,15 +6,15 @@ Wróg będzie działał na takiej zasadzie jak w grach Empire Earth/Age of Empir
 Do realizacji projektu planuje wykorzystać silnik Unreal Engine 4.27.2, który bazuje na języku C++, oraz program blender do tworzenia modeli 3d/animacji
 
 Wstępnie planuje:
-- raport I (14.04)
+- raport I (14.04) \n
   poprawa kodu i blueprintów (może nawet stworzenie wszystkiego od nowa bazując na tym co już zrobiłem),
   poprawa mechaniki wykonywania rozkazów wielu jednostkom,
   poprawa jeszcze większej ilości zrobionych wcześniej mechanik,
-- raport II (05.05)
+- raport II (05.05) ) \n
   dodać nowe konstrukcje do budowania (mury, wieże atakujące, tartak itp.),
   nowe tekstury i siatki do modeli 3d,
   animacje
-- raport III (26.05)
+- raport III (26.05) ) \n
   zmienić działanie wrogów,
 projekt końcowy (16.06)
   wykończeniówka i usprawnienie działania projektu
