@@ -64,12 +64,12 @@ void APlayerCameraControllerPawn::SetupPlayerInputComponent(UInputComponent* Pla
 
 void  APlayerCameraControllerPawn::MoveForward(float Value)
 {
-	AddMovementInput(GetActorForwardVector(), Value);
+	AddMovementInput(GetActorForwardVector()*5, Value);
 
 }
 void  APlayerCameraControllerPawn::MoveRight(float Value)
 {
-	AddMovementInput(GetActorRightVector(), Value);
+	AddMovementInput(GetActorRightVector()*5, Value);
 
 }
 void  APlayerCameraControllerPawn::HorizontalRot(float Value)
