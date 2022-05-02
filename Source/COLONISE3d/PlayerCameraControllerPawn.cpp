@@ -182,12 +182,14 @@ void APlayerCameraControllerPawn::LeftMouseClick()
 				Rock = nullptr;
 				Tree = nullptr;
 				WarehouseSpawn = nullptr;
+				Wall = nullptr;
 			}
 			else if( Cast<ATreeSpawn>(Hit.GetActor()) && Hit.GetActor() != nullptr )				// If gatherable object was clicked... and // just save tapped tree
 			{
 				Tree = Cast<ATreeSpawn>(Hit.GetActor());
 				Rock = nullptr;
 				WarehouseSpawn = nullptr;
+				Wall = nullptr;
 				UnselectUnits();
 			}
 			else if( Cast<ARockSpawn>(Hit.GetActor()) && Hit.GetActor() != nullptr )
@@ -195,11 +197,21 @@ void APlayerCameraControllerPawn::LeftMouseClick()
 				Rock = Cast<ARockSpawn>(Hit.GetActor());
 				Tree = nullptr;
 				WarehouseSpawn = nullptr;
+				Wall = nullptr;
 				UnselectUnits();
 			}
 			else if( Cast<AMainWarehouseSpawn>(Hit.GetActor()) && Hit.GetActor() != nullptr )
 			{ 
 				WarehouseSpawn = Cast<AMainWarehouseSpawn>(Hit.GetActor());
+				Tree = nullptr;
+				Rock = nullptr;
+				Wall = nullptr;
+				UnselectUnits();
+			}
+			else if( Cast<AWalls>(Hit.GetActor()) && Hit.GetActor() != nullptr )
+			{ 
+				Wall = Cast<AWalls>(Hit.GetActor());
+				WarehouseSpawn = nullptr;
 				Tree = nullptr;
 				Rock = nullptr;
 				UnselectUnits();
@@ -275,6 +287,20 @@ void APlayerCameraControllerPawn::RightMouseClick()
 				}
 				SetPropertiesForSelectedUnits(Hit, false);
 			}
+			// need???????
+			/*else if( Cast<AWalls>(Hit.GetActor()) && Hit.GetActor() != nullptr )
+			{
+				for (int i = 0; i < Units.Num(); ++i)
+				{
+					if (Units[i] != nullptr)
+					{
+						Units[i]->Wall = Hit.GetActor();
+						Units[i]->ClickedRock = nullptr;
+						Units[i]->ClickedTree = nullptr;
+					}
+				}
+				SetPropertiesForSelectedUnits(Hit, false);
+			}*/
 			else if ( Hit.GetActor() != nullptr )	// walking to empty place
 			{
 				SetPropertiesForSelectedUnits(Hit, true);

@@ -6,6 +6,7 @@
 #include "RockSpawn.h"
 #include "TreeSpawn.h"
 #include "UnitSpawn.h"
+#include "Walls.h"
 #include "GameFramework/Pawn.h"
 #include "PlayerCameraControllerPawn.generated.h"
 
@@ -34,6 +35,9 @@ public:
 	ARockSpawn *Rock = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite);
 	AMainWarehouseSpawn *WarehouseSpawn = nullptr;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite);
+	AWalls *Wall = nullptr;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite);
 	FHitResult HitResults;
 	
