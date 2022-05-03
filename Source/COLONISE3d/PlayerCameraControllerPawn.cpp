@@ -2,14 +2,16 @@
 
 #include "PlayerCameraControllerPawn.h"
 
+
 #include "GameFramework/Pawn.h"
 #include "Components/InputComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Engine/EngineTypes.h"
 #include "UnitSpawn.h"
-#include "Components/CapsuleComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 // Sets default values
 APlayerCameraControllerPawn::APlayerCameraControllerPawn()
@@ -43,6 +45,11 @@ void APlayerCameraControllerPawn::BeginPlay()
 void APlayerCameraControllerPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	/*if (bMultiplySeletion)
+	{
+		HoldMultiplySelection();
+	}*/
+	
 
 }
 
@@ -53,7 +60,7 @@ void APlayerCameraControllerPawn::SetupPlayerInputComponent(UInputComponent* Pla
 	PlayerInputComponent->BindAxis("MoveForward", this, &APlayerCameraControllerPawn::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &APlayerCameraControllerPawn::MoveRight);
 	PlayerInputComponent->BindAxis("HorizontalRot", this, &APlayerCameraControllerPawn::HorizontalRot);
-	PlayerInputComponent->BindAxis("MultiplySelection", this, &APlayerCameraControllerPawn::MultiplySelection);
+	PlayerInputComponent->BindAction("MultiplySelection", IE_Pressed, this, &APlayerCameraControllerPawn::MultiplySelection);
 	PlayerInputComponent->BindAction("CursorVisible", IE_Pressed, this, &APlayerCameraControllerPawn::CursorVisible);
 	PlayerInputComponent->BindAction("ScrollZoomUp", IE_Pressed, this, &APlayerCameraControllerPawn::ScrollZoomUp);
 	PlayerInputComponent->BindAction("ScrollZoomDown", IE_Pressed, this, &APlayerCameraControllerPawn::ScrollZoomDown);
@@ -74,7 +81,8 @@ void  APlayerCameraControllerPawn::MoveRight(float Value)
 }
 void  APlayerCameraControllerPawn::HorizontalRot(float Value)
 {
-	AddActorLocalRotation(FRotator(0, Value, 0));
+	if (bRightMouseClickPressed)
+		AddActorLocalRotation(FRotator(0, Value, 0));
 }
 void  APlayerCameraControllerPawn::ScrollZoomUp()
 {
@@ -117,6 +125,7 @@ void APlayerCameraControllerPawn::UnselectUnits()
 	{
 		if (Units[i] != nullptr) 
 			Units[i]->bSelected = false;
+			Units[i]->CylinderHideShow();
 	}
 	Units.Empty();
 }
@@ -141,26 +150,33 @@ void APlayerCameraControllerPawn::SetPropertiesForSelectedUnits(FHitResult Hit, 
 			}
 			NewY = (i/Cols)*Distance;
 			Units[i]->SetPropertiesForSelectedUnit(Hit, bEmptyPlaceLocation, FVector(NewX, NewY, 0.0));
-			//Units[i]->GetCapsuleComponent()->Setrespon*/
 		}
 		else if (Units[i] != nullptr)
 		{
 			Units[i]->SetPropertiesForSelectedUnit(Hit, bEmptyPlaceLocation);
 		}
 	}
-	Units.Empty();
+	UnselectUnits();
+	//Units.Empty();
 }
 
 
 void APlayerCameraControllerPawn::LeftMouseClick()
 {
-	if (bLeftMouseClickPressed) bLeftMouseClickPressed = false;	// using for wall spawn...
-	else bLeftMouseClickPressed = true;
+	if (bLeftMouseClickPressed) {
+		bLeftMouseClickPressed = false;	// using for wall spawn...
+		bRightMouseClickPressed = false;
+	}
+	else
+	{
+		bLeftMouseClickPressed = true;
+		bRightMouseClickPressed = false;
+	}
 	
 	if(!bCursorVisible) // if cursor is visible then you can select by RMB 
 	{
 		APlayerController* Mouse = Cast<APlayerController>(GetController());
-
+		
 		FVector StartM;
 		FVector DirectionM;
 		Mouse->DeprojectMousePositionToWorld(StartM, DirectionM);
@@ -178,6 +194,7 @@ void APlayerCameraControllerPawn::LeftMouseClick()
 			if( Cast<AUnitSpawn>(Hit.GetActor()) )
 			{
 				Cast<AUnitSpawn>(Hit.GetActor())->bSelected = true;
+				Cast<AUnitSpawn>(Hit.GetActor())->CylinderHideShow();
 				Units.Add(Cast<AUnitSpawn>(Hit.GetActor()));
 				Rock = nullptr;
 				Tree = nullptr;
@@ -230,6 +247,8 @@ void APlayerCameraControllerPawn::LeftMouseClick()
 void APlayerCameraControllerPawn::RightMouseClick()
 {
 
+	if (!bRightMouseClickPressed) bRightMouseClickPressed = true;	// multiSelecting needed com later
+	
 	if(!bCursorVisible) // if cursor is visible then you can select by RMB 
 	{
 		APlayerController* Mouse = Cast<APlayerController>(GetController());
@@ -240,16 +259,12 @@ void APlayerCameraControllerPawn::RightMouseClick()
 
 		FHitResult Hit; // (ForceInit)
 	
-		FVector End(StartM + ( DirectionM * 10000));								
-		//TArray<FHitResult> Hit_for_line; // niepotrzebne potem
+		FVector End(StartM + ( DirectionM * 10000));
 		FCollisionQueryParams TraceParams;
 		bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, StartM, End, ECC_Visibility, TraceParams);
-		///// DrawDebugLine(GetWorld(), StartM, End, FColor::Orange, false, 0.1f);
-		///// DrawLineTraces(GetWorld(), StartM, End, Hit_for_line, 1.0f);
 	
 		if (Hit.GetActor() != nullptr && bHit)
 		{
-			////// GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, FString::Printf(TEXT("Trace Hit: %s"), *Hit.GetActor()->GetName()));
 			if( Cast<ATreeSpawn>(Hit.GetActor()) && Hit.GetActor() != nullptr )		// If gatherable object was clicked... and // IF gatherer was selected before ...
 			{
 				for (int i = 0; i < Units.Num(); ++i)
@@ -309,10 +324,64 @@ void APlayerCameraControllerPawn::RightMouseClick()
 	}
 }
 
-void APlayerCameraControllerPawn::MultiplySelection(float Value)
+void APlayerCameraControllerPawn::MultiplySelection()
 {
-	if (Value )
+	if (!bMultiplySeletion)
 		bMultiplySeletion = true;
 	else
 		bMultiplySeletion = false;
+}
+
+void APlayerCameraControllerPawn::HoldMultiplySelection()
+{
+	/*
+	APlayerController* Mouse = Cast<APlayerController>(GetController());
+	if ( Mouse->WasInputKeyJustPressed( EKeys::LeftMouseButton ) )
+	{
+		FVector StartM;
+		FVector DirectionM;
+		Mouse->DeprojectMousePositionToWorld(StartM, DirectionM);
+			
+		FHitResult Hit; // (ForceInit)
+	
+		FVector End(StartM + ( DirectionM * 10000));
+		FCollisionQueryParams TraceParams;
+		bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, StartM, End, ECC_Visibility, TraceParams);
+		if(bHit)
+			MouseHoldPosMin = Hit.Location; // FVector(Hit.Location.X, Hit.Location.Y, 150);
+		//GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, FString::Printf(TEXT("PRESSED")));
+	}
+	if ( Mouse->WasInputKeyJustReleased( EKeys::LeftMouseButton ) )
+	{
+		FVector StartM;
+		FVector DirectionM;
+		Mouse->DeprojectMousePositionToWorld(StartM, DirectionM);
+			
+		FHitResult Hit; // (ForceInit)
+	
+		FVector End(StartM + ( DirectionM * 10000));
+		FCollisionQueryParams TraceParams;
+		bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, StartM, End, ECC_Visibility, TraceParams);
+		if(bHit)
+			MouseHoldPosMax = Hit.Location; // FVector(Hit.Location.X, Hit.Location.Y, 150);
+		//GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, FString::Printf(TEXT("REALESED")));
+		
+		TArray<FHitResult> OutHits; // (ForceInit)
+		TArray<AActor*> ActorsToIgnore;
+		UKismetSystemLibrary::BoxTraceMulti(GetWorld(), MouseHoldPosMin, MouseHoldPosMax, FVector::OneVector*100, FRotator::ZeroRotator,  ETraceTypeQuery::TraceTypeQuery1 , false, ActorsToIgnore, EDrawDebugTrace::ForDuration , OutHits, true, FLinearColor::Red, FLinearColor::Green, 10.0f);
+		for (auto OutHit : OutHits)
+		{
+			if ( Cast<AUnitSpawn>(OutHit.GetActor()) )
+			{
+				Cast<AUnitSpawn>(OutHit.GetActor())->bSelected = true;
+				Units.Add(Cast<AUnitSpawn>(OutHit.GetActor()));
+				Rock = nullptr;
+				Tree = nullptr;
+				WarehouseSpawn = nullptr;
+				Wall = nullptr;
+			}
+		}
+		
+		 
+	}*/
 }

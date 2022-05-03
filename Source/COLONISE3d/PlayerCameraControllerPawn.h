@@ -7,6 +7,7 @@
 #include "TreeSpawn.h"
 #include "UnitSpawn.h"
 #include "Walls.h"
+#include "Components/SphereComponent.h"
 #include "GameFramework/Pawn.h"
 #include "PlayerCameraControllerPawn.generated.h"
 
@@ -28,7 +29,8 @@ public:
 	UPROPERTY(EditAnywhere);
 	class UCameraComponent* Camera;
 
-	TArray<AUnitSpawn*, TInlineAllocator<3>> Units;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite);
+	TArray<AUnitSpawn*> Units;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite);
 	ATreeSpawn *Tree = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite);
@@ -42,11 +44,18 @@ public:
 	FHitResult HitResults;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite);
+	FVector MouseHoldPosMin = FVector::ZeroVector;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite);
+	FVector MouseHoldPosMax = FVector::ZeroVector;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite);
 	bool bCursorVisible = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite);
-	bool bMultiplySeletion;
+	bool bMultiplySeletion = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite);
 	bool bLeftMouseClickPressed = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite);
+	bool bRightMouseClickPressed = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite);
 	bool bWheelLock = false;		// change in blueprint - using to rotate while building
 
@@ -55,6 +64,8 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	
+	void HoldMultiplySelection();
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -67,10 +78,11 @@ public:
 	void ScrollZoomUp();
 	void ScrollZoomDown();
 	void CursorVisible();
-	void UnselectUnits();
 	void SetPropertiesForSelectedUnits(FHitResult Hit, bool bEmptyPlaceLocation);
 	void LeftMouseClick();
 	void RightMouseClick();
-	void MultiplySelection(float Value);
+	void MultiplySelection();
 	
+	UFUNCTION(BlueprintCallable)
+	void UnselectUnits();
 };

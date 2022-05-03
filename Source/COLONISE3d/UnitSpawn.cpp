@@ -272,3 +272,13 @@ void AUnitSpawn::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
+
+void AUnitSpawn::CylinderHideShow()
+{
+	if (UnitCylinder != nullptr){
+		if (UnitCylinder->bHiddenInGame) 
+			UnitCylinder->SetHiddenInGame(false);
+		else
+			UnitCylinder->SetHiddenInGame(true);
+	}
+}

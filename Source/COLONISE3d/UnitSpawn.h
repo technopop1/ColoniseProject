@@ -65,6 +65,13 @@ public:
 	float Health = 150;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	float GatheringSpeed = 10;
+
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UStaticMeshComponent *UnitCylinder = nullptr;
+	UFUNCTION(BlueprintCallable)
+	void CylinderHideShow();
+	
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FVector Destination;
