@@ -2,11 +2,14 @@
 
 
 #include "UnitSpawn.h"
+
+#include "NavigationSystem.h"
 #include "Animation/SkeletalMeshActor.h"
 #include "Components/CapsuleComponent.h"
 #include "RockSpawn.h"
 #include "TreeSpawn.h"
 #include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 
@@ -25,6 +28,7 @@ AUnitSpawn::AUnitSpawn()
 	GetCapsuleComponent()->SetRelativeLocation(FVector(GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z+185.0));
 	GetMesh()->SetRelativeLocation(FVector(GetActorLocation().X, GetActorLocation().Y, GetActorLocation().Z-90.0));
 	GetCapsuleComponent()->SetRelativeScale3D(FVector(1.35, 1.35, 2));
+	
 	
 	
 	// Save animations
@@ -282,3 +286,24 @@ void AUnitSpawn::CylinderHideShow()
 			UnitCylinder->SetHiddenInGame(true);
 	}
 }
+
+void AUnitSpawn::UpdateWalkSpeed(float Value)
+{
+	if (UnitCharacterMovement != nullptr) 
+		UnitCharacterMovement->MaxWalkSpeed = Value;
+}
+
+void AUnitSpawn::FindRandomPatrol()
+{
+	if (bFindRandomPatrol) bFindRandomPatrol = false;
+	else bFindRandomPatrol = true;
+}
+/*bool AUnitSpawn::FindRandomPatrol()
+{
+	Destination = UNavigationSystemV1::GetRandomReachablePointInRadius(GetWorld(), GetActorLocation(), SightDistance, nullptr, nullptr);
+	FNavLocation ResultLocations;
+	bool it = UNavigationSystemV1::GetRandomReachablePointInRadius(GetActorLocation(), SightDistance, ResultLocations, NULL, NULL);
+	if (it)
+		Destination = ResultLocations.Location;
+	return it;
+}*/

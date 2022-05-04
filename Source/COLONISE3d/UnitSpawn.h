@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 //#include "AIController.h"
+#include <string>
+
 #include "CoreMinimal.h"
 #include "AIController.h"
 #include "MainWarehouseSpawn.h"
@@ -65,17 +67,30 @@ public:
 	float Health = 150;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	float GatheringSpeed = 10;
-
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	FString Status = "Ally";
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	float SightDistance = 1000.0f;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	bool bFindRandomPatrol = false;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UStaticMeshComponent *UnitCylinder = nullptr;
+	
 	UFUNCTION(BlueprintCallable)
 	void CylinderHideShow();
 	
-	
+	UFUNCTION(BlueprintCallable)
+	void FindRandomPatrol();
+	UFUNCTION(BlueprintCallable)
+	void UpdateWalkSpeed(float Value);
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UStaticMeshComponent *UnitCylinder = nullptr;
+
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FVector Destination;
-
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UCharacterMovementComponent *UnitCharacterMovement = nullptr; 
 public:		
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	AActor* Warehouse;
