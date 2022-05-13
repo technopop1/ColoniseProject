@@ -25,23 +25,27 @@ ATreeSpawn::ATreeSpawn()
 	FString Path;
 	FMath::GetRandSeed();
 	FMath Los;
-	switch (Los.RandRange(0, 2))
+	switch (Los.RandRange(0, 3))
 	{
 	case(0):
-		Path = TEXT("/Game/Blends/Tree_00.Tree_00");
-		TreeScaleValue = 1.0;
+		Path = TEXT("/Game/Blends/MyTrees/Tree_00.Tree_00"); // /MyTrees
+		//TreeScaleValue = 1.0;
 		break;
 	case(1):
-		Path = TEXT("/Game/Blends/Tree_01.Tree_01");
-		TreeScaleValue = 0.7;
+		Path = TEXT("/Game/Blends/MyTrees/Tree_01.Tree_01");
+		//TreeScaleValue = 0.7;
 		break;
 	case(2):
-		Path = TEXT("/Game/Blends/Tree_02.Tree_02");
-		TreeScaleValue = 0.85;
+		Path = TEXT("/Game/Blends/MyTrees/Tree_02.Tree_02");
+		//TreeScaleValue = 0.85;
+		break;
+	/**/case(3):
+		Path = TEXT("/Game/Blends/MyTrees/Tree_03.Tree_03");
+		//TreeScaleValue = 0.85;
 		break;
 	default: 
-		Path = TEXT("/Game/Blends/Tree_00.Tree_00");
-		TreeScaleValue = 1.0;
+		Path = TEXT("/Game/Blends/MyTrees/Tree_00.Tree_00");
+		//TreeScaleValue = 1.0;
 		break;
 	}
 
@@ -51,7 +55,7 @@ ATreeSpawn::ATreeSpawn()
 		Tree->SetStaticMesh(ConstructorHelpers::FObjectFinder<UStaticMesh>(*Path).Object);
 		Tree->SetRelativeRotation(FRotator(0.0f, FMath::RandRange(0.0f, 360.0f), 0.0f));
 		Tree->Mobility = EComponentMobility::Static;
-		Tree->SetRelativeScale3D(FVector(1.0, 1.0, TreeScaleValue ));	// scale because of huge size of imported trees
+		//Tree->SetRelativeScale3D(FVector(1.0, 1.0, TreeScaleValue ));	// scale because of huge size of imported trees
 	}
 	
 	TreeBox = CreateDefaultSubobject<UBoxComponent>("Box");

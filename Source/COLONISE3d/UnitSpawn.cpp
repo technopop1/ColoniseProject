@@ -239,9 +239,9 @@ void AUnitSpawn::AddResource()
 
 void AUnitSpawn::CheckDestState()  // should stop all units which want to gather if destination object was destroyed... should...
 {
-	if (bIfTree && !ClickedTree->bIsAlive)
+	if (bIfTree && ClickedTree!= nullptr && !ClickedTree->bIsAlive)
 		StopUnit();
-	if (bIfRock && !ClickedRock->bIsAlive)
+	if (bIfRock && ClickedRock!= nullptr && !ClickedRock->bIsAlive)
 		StopUnit();
 }
 

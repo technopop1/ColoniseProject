@@ -20,6 +20,13 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+
+	bool bIsAlive = true;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	float WallLimit = 1000;
+	
+	
+    
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
