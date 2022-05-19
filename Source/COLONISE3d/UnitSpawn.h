@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 //#include "AIController.h"
-#include <string>
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "DestinationInterface.h"
 #include "MainWarehouseSpawn.h"
 #include "GameFramework/Character.h"
 #include "UnitSpawn.generated.h"
 
 UCLASS()
-class COLONISE3D_API AUnitSpawn : public ACharacter
+class COLONISE3D_API AUnitSpawn : public ACharacter, public IDestinationInterface
 {
 	GENERATED_BODY()
 	
@@ -23,9 +23,9 @@ public:
 	//void SetUnitAnimation(FString Path);
 
 	void MoveUnit(float DeltaTime);//
-	void SetPropertiesForSelectedUnit(FHitResult Hit, bool bEmptyPlaceLocation, FVector NewPos);
+	void SetPropertiesForSelectedUnit(FHitResult Hit, FVector NewPos);
 	void SetPropertiesForSelectedUnit(FHitResult Hit, bool bEmptyPlaceLocation);
-	void SetPropertiesForSelectedUnit(AActor* Object);
+	void SetPropertiesForSelectedUnit(AActor* Object); // back from warehouse
 	void ReachedLimit();
 	void StopUnit();
 	void AddResource();
@@ -91,6 +91,11 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UCharacterMovementComponent *UnitCharacterMovement = nullptr; 
+	
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	//UBlackboardComponent * BB = nullptr;
+	//UBehaviorTreeComponent* OwnerComp = nullptr;
+	
 public:		
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	AActor* Warehouse;

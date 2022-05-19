@@ -65,7 +65,6 @@ protected:
 
 public:
 	
-	void HoldMultiplySelection();
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -81,7 +80,6 @@ public:
 	void SetPropertiesForSelectedUnits(FHitResult Hit, bool bEmptyPlaceLocation);
 	void LeftMouseClick();
 	void RightMouseClick();
-	void MultiplySelection();
 	
 	UFUNCTION(BlueprintCallable)
 	void UnselectUnits();

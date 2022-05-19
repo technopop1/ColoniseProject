@@ -11,7 +11,7 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "Kismet/KismetMathLibrary.h"
+#include "DestinationInterface.h"
 
 // Sets default values
 AUnitSpawn::AUnitSpawn()
@@ -32,12 +32,12 @@ AUnitSpawn::AUnitSpawn()
 	
 	
 	// Save animations
-	FString Path = "/Game/Mannequin/Character/Mesh/SK_Mannequin.SK_Mannequin";
+	FString Path = "/Game/CloseCombatAnimSet/Mannequin/Character/Mesh/SK_Mannequin.SK_Mannequin"; //"/Game/Mannequin/Character/Mesh/SK_Mannequin.SK_Mannequin";
 	if(ConstructorHelpers::FObjectFinder<USkeletalMesh>(*Path).Succeeded())
 	{
 		GetMesh()->SetSkeletalMesh(ConstructorHelpers::FObjectFinder<USkeletalMesh>(*Path).Object);
 	}
-	Path = "AnimBlueprint'/Game/Mannequin/Animations/ThirdPerson_AnimBP.ThirdPerson_AnimBP'";
+	Path = "/Game/CloseCombatAnimSet/Mannequin/Animations/ThirdPerson_AnimBP.ThirdPerson_AnimBP";//"AnimBlueprint'/Game/Mannequin/Animations/ThirdPerson_AnimBP.ThirdPerson_AnimBP'";
 	if(ConstructorHelpers::FObjectFinder<UAnimBlueprint>(*Path).Succeeded())
 	{
 		GetMesh()->SetAnimInstanceClass(ConstructorHelpers::FObjectFinder<UAnimBlueprint>(*Path).Object->GeneratedClass);
@@ -101,9 +101,14 @@ void AUnitSpawn::MoveUnit(float DeltaTime)
 		}
 	}
 }
-void AUnitSpawn::SetPropertiesForSelectedUnit(FHitResult Hit, const bool bEmptyPlaceLocation, FVector NewPos)
+void AUnitSpawn::SetPropertiesForSelectedUnit(FHitResult Hit, FVector NewPos)
 {
 	Destination = Hit.Location.operator+(NewPos);
+	
+	if (GetController() != nullptr && GetController()->GetClass()->ImplementsInterface(UDestinationInterface::StaticClass()))
+		Execute_DestinationChanged(GetController());
+	
+	
 	bUnitMove = true;											// while true unit will move to object
 	bSelected = false;											// is false you can't give this unit an order
 }
@@ -139,8 +144,13 @@ void AUnitSpawn::SetPropertiesForSelectedUnit(FHitResult Hit, const bool bEmptyP
 	}
 	bUnitMove = true;											// while true unit will move to object
 	bSelected = false;											// is false you can't give this unit an order
+	
+	
+	if (GetController() != nullptr && GetController()->GetClass()->ImplementsInterface(UDestinationInterface::StaticClass()))
+		Execute_DestinationChanged(GetController());
 	//Units[i]->MoveUnit();
 }
+
 void AUnitSpawn::SetPropertiesForSelectedUnit(AActor* Object)
 {
 	//Destination = Object->GetTargetLocation();		// set location of gatherable object
@@ -165,6 +175,9 @@ void AUnitSpawn::SetPropertiesForSelectedUnit(AActor* Object)
 	}
 	bUnitMove = true;											// while true unit will move to object
 	bSelected = false;											// is false you can't give this unit an order
+	
+	if (GetController() != nullptr && GetController()->GetClass()->ImplementsInterface(UDestinationInterface::StaticClass()))
+		Execute_DestinationChanged(GetController());
 	//Units[i]->MoveUnit();
 }
 void AUnitSpawn::ReachedLimit()

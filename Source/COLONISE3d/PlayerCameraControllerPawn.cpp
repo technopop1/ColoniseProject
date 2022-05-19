@@ -60,7 +60,6 @@ void APlayerCameraControllerPawn::SetupPlayerInputComponent(UInputComponent* Pla
 	PlayerInputComponent->BindAxis("MoveForward", this, &APlayerCameraControllerPawn::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &APlayerCameraControllerPawn::MoveRight);
 	PlayerInputComponent->BindAxis("HorizontalRot", this, &APlayerCameraControllerPawn::HorizontalRot);
-	PlayerInputComponent->BindAction("MultiplySelection", IE_Pressed, this, &APlayerCameraControllerPawn::MultiplySelection);
 	PlayerInputComponent->BindAction("CursorVisible", IE_Pressed, this, &APlayerCameraControllerPawn::CursorVisible);
 	PlayerInputComponent->BindAction("ScrollZoomUp", IE_Pressed, this, &APlayerCameraControllerPawn::ScrollZoomUp);
 	PlayerInputComponent->BindAction("ScrollZoomDown", IE_Pressed, this, &APlayerCameraControllerPawn::ScrollZoomDown);
@@ -149,14 +148,14 @@ void APlayerCameraControllerPawn::SetPropertiesForSelectedUnits(FHitResult Hit, 
 				NewX = -(static_cast<float>(Cols/2)*Distance) + (i-(i/Cols)*Cols)*Distance;
 			}
 			NewY = (i/Cols)*Distance;
-			Units[i]->SetPropertiesForSelectedUnit(Hit, bEmptyPlaceLocation, FVector(NewX, NewY, 0.0));
+			Units[i]->SetPropertiesForSelectedUnit(Hit, FVector(NewX, NewY, 0.0));
 		}
 		else if (Units[i] != nullptr)
 		{
 			Units[i]->SetPropertiesForSelectedUnit(Hit, bEmptyPlaceLocation);
 		}
 	}
-	UnselectUnits();
+	//UnselectUnits();
 	//Units.Empty();
 }
 
@@ -191,11 +190,17 @@ void APlayerCameraControllerPawn::LeftMouseClick()
 		if (Hit.GetActor() != nullptr && bHit)
 		{
 			///// GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, FString::Printf(TEXT("Trace Hit: %s"), *Hit.GetActor()->GetName()));
-			if( Cast<AUnitSpawn>(Hit.GetActor()) )
+			if( AUnitSpawn *Unit = Cast<AUnitSpawn>(Hit.GetActor()) )
 			{
-				Cast<AUnitSpawn>(Hit.GetActor())->bSelected = true;
-				Cast<AUnitSpawn>(Hit.GetActor())->CylinderHideShow();
-				Units.Add(Cast<AUnitSpawn>(Hit.GetActor()));
+				if (Units.Contains(Unit)) { // if unit was already clicked
+					Unit->bSelected = false;
+					Units.Remove(Unit);
+				}
+				else {
+					Unit->bSelected = true;
+					Units.Add(Unit);
+				}
+				Unit->CylinderHideShow();
 				Rock = nullptr;
 				Tree = nullptr;
 				WarehouseSpawn = nullptr;
@@ -234,12 +239,12 @@ void APlayerCameraControllerPawn::LeftMouseClick()
 				UnselectUnits();
 			}
 			else if (Hit.GetActor() != nullptr )	// clear select state on lmb 
-				{
+			{
 				Rock = nullptr;
 				Tree = nullptr;
 				WarehouseSpawn = nullptr;
 				UnselectUnits();
-				}
+			}
 		}
 	}
 }
@@ -324,64 +329,3 @@ void APlayerCameraControllerPawn::RightMouseClick()
 	}
 }
 
-void APlayerCameraControllerPawn::MultiplySelection()
-{
-	if (!bMultiplySeletion)
-		bMultiplySeletion = true;
-	else
-		bMultiplySeletion = false;
-}
-
-void APlayerCameraControllerPawn::HoldMultiplySelection()
-{
-	/*
-	APlayerController* Mouse = Cast<APlayerController>(GetController());
-	if ( Mouse->WasInputKeyJustPressed( EKeys::LeftMouseButton ) )
-	{
-		FVector StartM;
-		FVector DirectionM;
-		Mouse->DeprojectMousePositionToWorld(StartM, DirectionM);
-			
-		FHitResult Hit; // (ForceInit)
-	
-		FVector End(StartM + ( DirectionM * 10000));
-		FCollisionQueryParams TraceParams;
-		bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, StartM, End, ECC_Visibility, TraceParams);
-		if(bHit)
-			MouseHoldPosMin = Hit.Location; // FVector(Hit.Location.X, Hit.Location.Y, 150);
-		//GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, FString::Printf(TEXT("PRESSED")));
-	}
-	if ( Mouse->WasInputKeyJustReleased( EKeys::LeftMouseButton ) )
-	{
-		FVector StartM;
-		FVector DirectionM;
-		Mouse->DeprojectMousePositionToWorld(StartM, DirectionM);
-			
-		FHitResult Hit; // (ForceInit)
-	
-		FVector End(StartM + ( DirectionM * 10000));
-		FCollisionQueryParams TraceParams;
-		bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, StartM, End, ECC_Visibility, TraceParams);
-		if(bHit)
-			MouseHoldPosMax = Hit.Location; // FVector(Hit.Location.X, Hit.Location.Y, 150);
-		//GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, FString::Printf(TEXT("REALESED")));
-		
-		TArray<FHitResult> OutHits; // (ForceInit)
-		TArray<AActor*> ActorsToIgnore;
-		UKismetSystemLibrary::BoxTraceMulti(GetWorld(), MouseHoldPosMin, MouseHoldPosMax, FVector::OneVector*100, FRotator::ZeroRotator,  ETraceTypeQuery::TraceTypeQuery1 , false, ActorsToIgnore, EDrawDebugTrace::ForDuration , OutHits, true, FLinearColor::Red, FLinearColor::Green, 10.0f);
-		for (auto OutHit : OutHits)
-		{
-			if ( Cast<AUnitSpawn>(OutHit.GetActor()) )
-			{
-				Cast<AUnitSpawn>(OutHit.GetActor())->bSelected = true;
-				Units.Add(Cast<AUnitSpawn>(OutHit.GetActor()));
-				Rock = nullptr;
-				Tree = nullptr;
-				WarehouseSpawn = nullptr;
-				Wall = nullptr;
-			}
-		}
-		
-		 
-	}*/
-}
