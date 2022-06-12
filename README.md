@@ -1,12 +1,3 @@
 # ColoniseProject
 
-Planuje rozwijać mój wcześniejszy projekt, czyli zrobić grę typu RTS (Real Time Strategy), która będzie się opierać na rozwoju cywilizacji. Gracz będzie musiał werbować ludzi, zbierać surowce na rozwój, a także oddziały, które będą bronić miasto przed najazdami wroga lub atakowały wrogą bazę. 
-Wróg będzie działał na takiej zasadzie jak w grach Empire Earth/Age of Empire, Twierdza lub They Are Billions, czyli będzie to albo sztuczna inteligencja która sama rozwija swoją cywilizację i reaguje na gracza jak na swojego wroga, albo przeciwnik będzie się pojawiał co jakiś czas kierując się w stronę miasta, żeby je zniszczyć. Celem rozgrywki będzie osiągnięcie określonego stopnia rozwoju naszej cywilizacji, opcjonalnie będzie można wygrać niszcząc całkowicie kolonie wroga. 
-
-Do realizacji projektu planuje wykorzystać silnik Unreal Engine 4.27.2, który bazuje na języku C++, oraz program blender do tworzenia modeli 3d/animacji
-
-Wstępnie planuje:
-- raport I (14.04):  poprawa kodu i blueprintów (może nawet stworzenie wszystkiego od nowa bazując na tym co już zrobiłem),  poprawa mechaniki wykonywania rozkazów wielu jednostkom, poprawa jeszcze większej ilości zrobionych wcześniej mechanik,
-- raport II (05.05):  dodać nowe konstrukcje do budowania (mury, wieże atakujące, tartak itp.),  nowe tekstury i siatki do modeli 3d, dodać animacje
-- raport III (26.05):  zmienić działanie wrogów,
-- projekt końcowy (16.06):  wykończeniówka i usprawnienie działania projektu
+I plan to develop my previous project, i.e. make a RTS (Real Time Strategy) game, which will be based on the development of civilization. The player will have to recruit new inhabitants, collect resources for development, as well as troops that will defend the city from enemy invasions or attack the enemy base. The enemy will work in the same way as in Empire Earth / Age of Empire, Fortress or They Are Billions games, i.e. it will be either an artificial intelligence that develops its civilization itself and reacts to the player as if it were its enemy, or the opponent will appear from time to time heading towards the city to destroy it. The goal of the game will be to achieve a certain level of development of our civilization, optionally you will be able to win by completely destroying enemy colonies.
