@@ -212,7 +212,7 @@ void AUnitSpawn::AddResource()
 				ReachedLimit();
 				//ClickedTree = nullptr;
 			}
-			if (Wood == Limit ) //|| ClickedTree == nullptr)
+			if (Wood >= Limit ) //|| ClickedTree == nullptr)
 			{
 				ReachedLimit();
 			}
@@ -237,7 +237,7 @@ void AUnitSpawn::AddResource()
 				ReachedLimit();
 				//ClickedRock = nullptr;
 			}
-			if (Stone == Limit )//|| ClickedRock == nullptr)
+			if (Stone >= Limit )//|| ClickedRock == nullptr)
 			{
 				ReachedLimit();
 			}

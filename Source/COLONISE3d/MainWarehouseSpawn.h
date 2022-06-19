@@ -24,7 +24,13 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	float WarehouseLimit = 10000;
+	float HealthLimit = 10000;
 	
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	bool bIsAlive = true;
+	//UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	//float HealthLimit = 1000;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	FString StructureName = "MainWarehouse";
 
 };

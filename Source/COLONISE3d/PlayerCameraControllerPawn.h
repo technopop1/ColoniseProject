@@ -28,6 +28,8 @@ public:
 	
 	UPROPERTY(EditAnywhere);
 	class UCameraComponent* Camera;
+	UPROPERTY(EditAnywhere);
+	class UChildActorComponent* unitTMP;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite);
 	TArray<AUnitSpawn*> Units;

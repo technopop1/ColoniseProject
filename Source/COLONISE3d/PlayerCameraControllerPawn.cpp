@@ -27,9 +27,9 @@ APlayerCameraControllerPawn::APlayerCameraControllerPawn()
 
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 	// set pos and rot of cam
-	Camera->SetRelativeLocation(FVector(0.0f, 0.0f, 5000.0f));
+	Camera->SetRelativeLocation(FVector(0.0f, 0.0f, 5000.0f)); // 2500 <- z
 	Camera->SetRelativeRotation(FRotator(-45.0f, 0.0f, 0.0f));
-	
+
 }
 
 // Called when the game starts or when spawned
