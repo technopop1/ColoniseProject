@@ -28,23 +28,23 @@ ATreeSpawn::ATreeSpawn()
 	switch (Los.RandRange(0, 3))
 	{
 	case(0):
-		Path = TEXT("/Game/Blends/MyTrees/Tree_00.Tree_00"); // /MyTrees
-		//TreeScaleValue = 1.0;
-		break;
-	case(1):
-		Path = TEXT("/Game/Blends/MyTrees/Tree_01.Tree_01");
-		//TreeScaleValue = 0.7;
-		break;
-	case(2):
-		Path = TEXT("/Game/Blends/MyTrees/Tree_02.Tree_02");
-		//TreeScaleValue = 0.85;
-		break;
-	/**/case(3):
-		Path = TEXT("/Game/Blends/MyTrees/Tree_03.Tree_03");
-		//TreeScaleValue = 0.85;
-		break;
-	default: 
-		Path = TEXT("/Game/Blends/MyTrees/Tree_00.Tree_00");
+		Path = TEXT("/Game/Blends/Tree_00.Tree_00"); //MyTrees/ // /MyTrees
+		//TreeScaleValue = 1.0;                      //         
+		break;                                       //         
+	case(1):                                         //         
+		Path = TEXT("/Game/Blends/Tree_01.Tree_01"); //MyTrees/ 
+		//TreeScaleValue = 0.7;                      //         
+		break;                                       //         
+	case(2):                                         //         
+		Path = TEXT("/Game/Blends/Tree_02.Tree_02"); //MyTrees/ 
+		//TreeScaleValue = 0.85;                     //         
+		break;                                       //         
+	/*case(3):                                     //         
+		Path = TEXT("/Game/Blends/Tree_03.Tree_03"); //MyTrees/ 
+		//TreeScaleValue = 0.85;                     //         
+		break;            */                           //         
+	default:                                         //         
+		Path = TEXT("/Game/Blends/Tree_00.Tree_00"); //MyTrees/ 
 		//TreeScaleValue = 1.0;
 		break;
 	}

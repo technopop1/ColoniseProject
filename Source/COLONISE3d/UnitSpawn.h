@@ -66,7 +66,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	float Health = 150;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	float GatheringSpeed = 10;
+	float GatheringSpeed = 15;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	FString Status = "Ally";
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)

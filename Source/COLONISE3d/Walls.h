@@ -24,6 +24,8 @@ public:
 	bool bIsAlive = true;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	float WallLimit = 1000;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	FString WallName = "Wall";
 	
 	
     

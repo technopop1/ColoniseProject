@@ -27,7 +27,7 @@ APlayerCameraControllerPawn::APlayerCameraControllerPawn()
 
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 	// set pos and rot of cam
-	Camera->SetRelativeLocation(FVector(0.0f, 0.0f, 2500.0f));
+	Camera->SetRelativeLocation(FVector(0.0f, 0.0f, 5000.0f));
 	Camera->SetRelativeRotation(FRotator(-45.0f, 0.0f, 0.0f));
 	
 }
@@ -189,7 +189,7 @@ void APlayerCameraControllerPawn::LeftMouseClick()
 	
 		if (Hit.GetActor() != nullptr && bHit)
 		{
-			///// GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, FString::Printf(TEXT("Trace Hit: %s"), *Hit.GetActor()->GetName()));
+			///// GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, FString::Printf(TEXT("Trace Hit: %f"), float(5.0f));
 			if( AUnitSpawn *Unit = Cast<AUnitSpawn>(Hit.GetActor()) )
 			{
 				if (Units.Contains(Unit)) { // if unit was already clicked
