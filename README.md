@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # ColoniseProject
 
 Planuje rozwijać mój wcześniejszy projekt, czyli zrobić grę typu RTS (Real Time Strategy), która będzie się opierać na rozwoju cywilizacji. Gracz będzie musiał werbować ludzi, zbierać surowce na rozwój, a także oddziały, które będą bronić miasto przed najazdami wroga lub atakowały wrogą bazę. 
@@ -27,6 +26,3 @@ Progress
 ![Zrzut ekranu 2022-06-13 001027](https://user-images.githubusercontent.com/75214796/173255952-7ad4ada7-a379-4f6b-be7d-c882d72e05be.png)
 ![Zrzut ekranu 2022-06-13 001208](https://user-images.githubusercontent.com/75214796/173255956-58a9ca64-d861-4c85-91e1-75522203eeba.png)
 ![Zrzut ekranu 2022-06-13 001250](https://user-images.githubusercontent.com/75214796/173255959-a862d657-47c0-4ca2-84eb-45ca1eb21b67.png)
-
-
->>>>>>> 55292491f3e31f67b151388344bbc5c233488a70
