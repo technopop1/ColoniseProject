@@ -12,6 +12,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "DestinationInterface.h"
+#include "PlayerCameraControllerPawn.h"
 
 // Sets default values
 AUnitSpawn::AUnitSpawn()
@@ -51,6 +52,7 @@ void AUnitSpawn::BeginPlay()
 	
 	// in future it should be Tarray of warehouse if it is possible to create new smalls warehouses
 	Warehouse = UGameplayStatics::GetActorOfClass(AActor::GetWorld(), TSubclassOf<AMainWarehouseSpawn>( AMainWarehouseSpawn::StaticClass() ) );
+	PlayerCameraControllerPawn = Cast<APlayerCameraControllerPawn>( UGameplayStatics::GetPlayerPawn(GetWorld(), 0) );
 	
 }
 
@@ -182,6 +184,22 @@ void AUnitSpawn::SetPropertiesForSelectedUnit(AActor* Object)
 }
 void AUnitSpawn::ReachedLimit()
 {
+	/*
+	 * don't work
+	 * 
+	 */
+	FVector ClosestStructure = FVector::ZeroVector * 50000;
+	for (AMainWarehouseSpawn* Structure : Cast<APlayerCameraControllerPawn>(PlayerCameraControllerPawn)->Structures)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, Structure->GetName());
+		if(FVector::Distance(Structure->GetActorLocation(), GetActorLocation()) < FVector::Distance(ClosestStructure, GetActorLocation()) )
+		{
+			ClosestStructure = Structure->GetActorLocation();
+			Warehouse = Structure;
+		}
+	}
+	//GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, PlayerCameraControllerPawn->GetName());
+	//GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, Cast<APlayerCameraControllerPawn>(PlayerCameraControllerPawn)->Structures);
 	Destination = Warehouse->GetActorLocation();
 	bIfWarehouse = true;
 	bUnitMove = true;
@@ -311,6 +329,7 @@ void AUnitSpawn::FindRandomPatrol()
 	if (bFindRandomPatrol) bFindRandomPatrol = false;
 	else bFindRandomPatrol = true;
 }
+
 /*bool AUnitSpawn::FindRandomPatrol()
 {
 	Destination = UNavigationSystemV1::GetRandomReachablePointInRadius(GetWorld(), GetActorLocation(), SightDistance, nullptr, nullptr);

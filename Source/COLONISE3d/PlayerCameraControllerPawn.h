@@ -1,5 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+//#pragma once
 #pragma once
 
 #include "CoreMinimal.h"
@@ -7,6 +6,7 @@
 #include "TreeSpawn.h"
 #include "UnitSpawn.h"
 #include "Walls.h"
+#include "MainWarehouseSpawn.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/Pawn.h"
 #include "PlayerCameraControllerPawn.generated.h"
@@ -39,6 +39,8 @@ public:
 	ARockSpawn *Rock = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite);
 	AMainWarehouseSpawn *WarehouseSpawn = nullptr;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite);
+	TArray<AMainWarehouseSpawn*> Structures;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite);
 	AWalls *Wall = nullptr;
 	

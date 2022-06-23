@@ -7,7 +7,6 @@
 #include "Components/InputComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Engine/EngineTypes.h"
-#include "UnitSpawn.h"
 #include "GameFramework/FloatingPawnMovement.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -139,6 +138,7 @@ void APlayerCameraControllerPawn::SetPropertiesForSelectedUnits(FHitResult Hit, 
 	
 	for (int i = 0; i < Units.Num(); ++i)
 	{
+		Units[i]->bGathering = false;
 		if (Units[i] != nullptr &&  Hit.GetActor() != nullptr && bEmptyPlaceLocation)	// if empty place destination
 		{
 			if ( Cols%2 ) {
@@ -307,20 +307,6 @@ void APlayerCameraControllerPawn::RightMouseClick()
 				}
 				SetPropertiesForSelectedUnits(Hit, false);
 			}
-			// need???????
-			/*else if( Cast<AWalls>(Hit.GetActor()) && Hit.GetActor() != nullptr )
-			{
-				for (int i = 0; i < Units.Num(); ++i)
-				{
-					if (Units[i] != nullptr)
-					{
-						Units[i]->Wall = Hit.GetActor();
-						Units[i]->ClickedRock = nullptr;
-						Units[i]->ClickedTree = nullptr;
-					}
-				}
-				SetPropertiesForSelectedUnits(Hit, false);
-			}*/
 			else if ( Hit.GetActor() != nullptr )	// walking to empty place
 			{
 				SetPropertiesForSelectedUnits(Hit, true);

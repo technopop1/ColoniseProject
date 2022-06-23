@@ -8,7 +8,6 @@
 #include "CoreMinimal.h"
 #include "AIController.h"
 #include "DestinationInterface.h"
-#include "MainWarehouseSpawn.h"
 #include "GameFramework/Character.h"
 #include "UnitSpawn.generated.h"
 
@@ -101,6 +100,8 @@ public:
 	AActor* Warehouse;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	AActor* Unitcontroller;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	APawn* PlayerCameraControllerPawn; // APawn to avoid circular-dependency-detected
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	class ATreeSpawn* ClickedTree = nullptr;
