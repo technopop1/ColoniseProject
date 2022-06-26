@@ -17,7 +17,8 @@ I will be developing my previous project, i.e. a RTS (Real Time Strategy) game, 
 
 Progress 
 
-https://user-images.githubusercontent.com/75214796/175822730-29231208-6559-4ebf-90d3-648c778c5a47.mp4
+
+https://user-images.githubusercontent.com/75214796/175823373-c712a7cc-00fb-429a-9f6c-cc77150fdc66.mp4
 
 ![Zrzut ekranu 2022-06-13 002738](https://user-images.githubusercontent.com/75214796/173256148-dcd8e285-f272-4a95-9a31-89590594a1f8.png)
 ![Zrzut ekranu 2022-06-13 000509](https://user-images.githubusercontent.com/75214796/173255886-4004bc15-8867-44ca-970e-0d840386bc89.png)
