@@ -184,22 +184,18 @@ void AUnitSpawn::SetPropertiesForSelectedUnit(AActor* Object)
 }
 void AUnitSpawn::ReachedLimit()
 {
-	/*
-	 * don't work
-	 * 
-	 */
-	FVector ClosestStructure = FVector::ZeroVector * 50000;
-	for (AMainWarehouseSpawn* Structure : Cast<APlayerCameraControllerPawn>(PlayerCameraControllerPawn)->Structures)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, Structure->GetName());
-		if(FVector::Distance(Structure->GetActorLocation(), GetActorLocation()) < FVector::Distance(ClosestStructure, GetActorLocation()) )
-		{
-			ClosestStructure = Structure->GetActorLocation();
-			Warehouse = Structure;
-		}
-	}
-	//GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, PlayerCameraControllerPawn->GetName());
-	//GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, Cast<APlayerCameraControllerPawn>(PlayerCameraControllerPawn)->Structures);
+    FVector ClosestStructure = FVector::ZeroVector * 50000;
+    for (AMainWarehouseSpawn* Structure : Cast<APlayerCameraControllerPawn>(PlayerCameraControllerPawn)->Structures)
+    {
+        //GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Orange, Structure->GetName());
+        if( ((ClickedRock != nullptr && Structure->StructureName != FString("Sawmill")) || (ClickedTree != nullptr) )&& 
+        	Structure->StructureName != FString("Barracks") &&
+        	FVector::Distance(Structure->GetActorLocation(), GetActorLocation()) < FVector::Distance(ClosestStructure, GetActorLocation()) )
+        {
+            ClosestStructure = Structure->GetActorLocation();
+            Warehouse = Structure;
+        }
+    }
 	Destination = Warehouse->GetActorLocation();
 	bIfWarehouse = true;
 	bUnitMove = true;
